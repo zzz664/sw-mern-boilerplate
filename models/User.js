@@ -61,7 +61,7 @@ userSchema.methods.comparePassword = function(plainPassword, callbackfunc) {
         if(err) return callbackfunc(err);
         callbackfunc(null, isMatch);
     });
-}
+};
 
 //jsonwebtoken을 이용하여 토큰생성
 // user._id + 'secretToken'이 token임, 'secretToken'을 넣으면 user._id가 나와서 누구인지 식별 가능하다.
@@ -76,7 +76,20 @@ userSchema.methods.genToken = function(callbackfunc) {
         if(err) return callbackfunc(err);    
         callbackfunc(null, userInfo);
     });
-}
+};
+
+userSchema.statics.findByToken = function(token, callbackfunc) {
+    var user = this;
+
+    //토큰 복호화
+    jwt.verify(token, 'secretToken', function(err, decoded) {
+        //user id를 이용하여 user를 찾고 db의 토큰과 클라이언트의 토큰이 일치하는지 확인
+        user.findOne({"_id": decoded, "token": token}, function(err, userInfo) {
+            if(err) return callbackfunc(err);
+            callbackfunc(null, userInfo);
+        });
+    });
+};
 
 const User = mongoose.model('User', userSchema);
 
