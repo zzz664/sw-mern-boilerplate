@@ -12,7 +12,7 @@ import promiseMiddleware from 'redux-promise';
 import reduxThunk from 'redux-thunk';
 import Reducer from './_reducers';
 
-const createStoreWithMiddleware = applyMiddleware(promiserMiddleware, reduxThunk)(createStore);
+const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, reduxThunk)(createStore);
 
 ReactDOM.render(
   <React.StrictMode>
