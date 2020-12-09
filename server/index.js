@@ -35,9 +35,9 @@ app.post('/api/users/register', (req, res) => {
 
     user.save((err, userInfo) => {
         if(err) 
-            return res.json({success: false, err})
+            return res.json({registerSuccess: false, err})
 
-        return res.status(200).json({success: true})
+        return res.status(200).json({registerSuccess: true})
     })
 });
 
@@ -89,8 +89,8 @@ app.get('/api/users/auth', auth, (req, res) => {
 
 app.get('/api/users/logout', auth, (req, res) => {
     User.findOneAndUpdate({_id: req.userInfo._id}, {token: ""}, (err, userInfo) => {
-        if(err) return res.json({success: false, err});
-        return res.status(200).send({success: true});
+        if(err) return res.json({logoutSuccess: false, err});
+        return res.status(200).send({logoutSuccess: true});
     })
 });
 
